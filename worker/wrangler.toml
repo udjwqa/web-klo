@@ -1,0 +1,7 @@
+name = "web-klo"
+main = "src/index.js"
+compatibility_date = "2024-10-01"
+
+[vars]
+# Pass-through worker: no central decide. Optional OFFER_URL for go.* on this zone.
+OFFER_URL = ""

@@ -1,0 +1,14 @@
+[Unit]
+Description=web-klo edge decide
+After=network.target
+
+[Service]
+WorkingDirectory=/opt/web-klo-edge
+EnvironmentFile=/opt/web-klo-edge/.env
+ExecStart=/opt/web-klo-edge/.venv/bin/uvicorn --app-dir engine app:app --host 127.0.0.1 --port 8090 --no-server-header --forwarded-allow-ips=""
+Restart=always
+RestartSec=2
+NoNewPrivileges=true
+
+[Install]
+WantedBy=multi-user.target

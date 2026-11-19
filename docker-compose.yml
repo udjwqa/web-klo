@@ -1,0 +1,11 @@
+services:
+  engine:
+    build: ./engine
+    ports:
+      - "8088:8088"
+    env_file:
+      - .env
+    volumes:
+      - ./data:/data
+      - ./engine/lists:/app/lists
+    restart: unless-stopped
